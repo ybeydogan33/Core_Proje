@@ -1,7 +1,10 @@
-﻿namespace EntityLayer;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EntityLayer;
 
 public class Experience
 {
+    [Key]
     public int ExperienceID { get; set; }
     public string Name { get; set; }
     public string Date { get; set; }

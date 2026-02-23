@@ -1,7 +1,10 @@
-﻿namespace EntityLayer;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EntityLayer;
 
 public class Contact
 {
+    [Key]
     public int ContactID { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }

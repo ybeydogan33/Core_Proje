@@ -1,7 +1,10 @@
-﻿namespace EntityLayer;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EntityLayer;
 
 public class SocialMedia
 {
+    [Key]
     public int SocialMediaID { get; set; }
     public string Name { get; set; }
     public string Url { get; set; }
