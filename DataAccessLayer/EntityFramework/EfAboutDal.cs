@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer;
 
-public class EfAboutDal : GenericRepository<About>, IAbaoutDal
+public class EfAboutDal : GenericRepository<About>, IAboutDal
 {
 
 }
