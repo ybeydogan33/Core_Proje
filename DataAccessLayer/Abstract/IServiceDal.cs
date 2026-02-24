@@ -1,7 +1,8 @@
 ﻿using EntityLayer;
+
 namespace DataAccessLayer;
 
-public interface IAbaoutDal : IGenericDal<About>
+public interface IServiceDal : IGenericDal<Service>
 {
 
 }
