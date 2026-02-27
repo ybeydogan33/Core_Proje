@@ -1,0 +1,39 @@
+﻿using DataAccessLayer;
+using EntityLayer;
+
+namespace BusinessLayer;
+
+public class ExperienceManager : IExperienceService
+{
+    IExperienceDal _experienceDal;
+
+    public ExperienceManager(IExperienceDal experienceDal)
+    {
+        _experienceDal = experienceDal;
+    }
+
+    public Experience GetByID(int id)
+    {
+        return _experienceDal.GetById(id);
+    }
+
+    public void TAdd(Experience t)
+    {
+        _experienceDal.Insert(t);
+    }
+
+    public void TDelete(Experience t)
+    {
+        _experienceDal.Delete(t);
+    }
+
+    public List<Experience> TGetList()
+    {
+        return _experienceDal.GetList();
+    }
+
+    public void TUpdate(Experience t)
+    {
+        _experienceDal.Update(t);
+    }
+}
