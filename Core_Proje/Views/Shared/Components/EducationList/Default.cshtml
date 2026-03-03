@@ -1,0 +1,19 @@
+@using EntityLayer
+@model List<Education>
+
+@foreach (var item in Model)
+{
+    <div class="resume-card">
+        <div class="resume-logo-wrap">
+            <img src="@item.LogoUrl" alt="@item.Institution" class="resume-logo"
+                 onerror="this.style.display='none'" />
+        </div>
+        <div class="resume-content">
+            <div class="resume-top">
+                <h5 class="resume-title">@item.Title</h5>
+                <p class="resume-date">@item.DateRange</p>
+            </div>
+            <p class="resume-company">@item.Institution</p>
+        </div>
+    </div>
+}

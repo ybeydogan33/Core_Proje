@@ -2,15 +2,16 @@
 using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Core_Proje;
-
-public class FeatureList: ViewComponent
+namespace Core_Proje.ViewComponents.Feature
 {
-    FeatureManager featureManager= new FeatureManager(new EfFeatureDal());
-    public IViewComponentResult Invoke()
+    public class FeatureList : ViewComponent
     {
-        var values = featureManager.TGetList();
-        return View(values);
-    }
+        FeatureManager featureManager = new FeatureManager(new EfFeatureDal());
 
+        public IViewComponentResult Invoke()
+        {
+            var values = featureManager.TGetList();
+            return View(values);
+        }
+    }
 }

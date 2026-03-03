@@ -1,0 +1,75 @@
+@using EntityLayer
+@model List<Certificate>
+
+<style>
+    .certificate-card {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 1rem; padding: 1rem 1.2rem;
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 16px; position: relative; overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .certificate-card::before {
+        content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+        background: linear-gradient(to bottom, var(--accent), transparent);
+        opacity: 0; transition: opacity 0.3s ease;
+    }
+    .certificate-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,0.25); border-color: var(--accent-dim); }
+    .certificate-card:hover::before { opacity: 1; }
+
+    .certificate-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
+    .certificate-logo-wrap {
+        width: 42px; height: 42px; border-radius: 10px; background: #fff;
+        border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0; overflow: hidden;
+    }
+    .certificate-logo { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+
+    .certificate-info { min-width: 0; }
+    .certificate-title {
+        font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+        color: var(--text); margin: 0 0 0.2rem;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .certificate-provider { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: var(--muted); margin: 0; }
+
+    .certificate-btn {
+        font-family: 'DM Mono', monospace; font-size: 0.62rem;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        color: var(--accent) !important; background: var(--accent-dim);
+        border: 1px solid transparent; padding: 0.35rem 0.9rem;
+        border-radius: 20px; text-decoration: none !important;
+        white-space: nowrap; flex-shrink: 0;
+        display: inline-flex; align-items: center; gap: 0.3rem;
+        transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .certificate-btn:hover { background: transparent; border-color: var(--accent); transform: translateY(-1px); }
+    .certificate-btn svg { transition: transform 0.2s; }
+    .certificate-btn:hover svg { transform: translate(2px,-2px); }
+</style>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-6 mb-3">
+        <div class="certificate-card">
+            <div class="certificate-left">
+                <div class="certificate-logo-wrap">
+                    <img src="@item.LogoUrl" alt="@item.Provider" class="certificate-logo"
+                         onerror="this.style.display='none'" />
+                </div>
+                <div class="certificate-info">
+                    <h5 class="certificate-title">@item.Title</h5>
+                    <p class="certificate-provider">@item.Provider</p>
+                </div>
+            </div>
+            <a href="@item.CertificateUrl" target="_blank" class="certificate-btn">
+                Görüntüle
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+}

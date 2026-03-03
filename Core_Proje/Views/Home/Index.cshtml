@@ -1,8 +1,123 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap');
+
+    .page-section {
+        padding: 0.3rem 6%;
+        max-width: 1600px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .page-section + .page-section::before {
+        content: '';
+        display: block;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border), transparent);
+        margin-bottom: 3.5rem;
+    }
+
+    .section-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.75rem;
+    }
+    .section-eyebrow::before {
+        content: '';
+        display: inline-block;
+        width: 24px; height: 1px;
+        background: var(--accent);
+    }
+
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        font-weight: 600;
+        color: var(--text);
+        margin: 0 0 1.8rem;
+        line-height: 1.2;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+    }
+    .about-col-label {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 4rem;
+        align-items: start;
+    }
+
+    #home { position: relative; z-index: 1; }
+
+    @@media (max-width: 900px) {
+        .page-section  { padding: 2.5rem 5%; }
+        .about-grid    { grid-template-columns: 1fr; gap: 2rem; }
+        .contact-grid  { grid-template-columns: 1fr; gap: 2rem; }
+    }
+</style>
+
+<section id="home">
+    @await Component.InvokeAsync("FeatureList")
+</section>
+
+<section id="portfolio" class="page-section">
+    <h2 class="section-title"> Projeler</h2>
+    @await Component.InvokeAsync("PortfolioList")
+</section>
+
+<section id="about" class="page-section">
+    <h2 class="section-title">Hakkımda</h2>
+    <div class="about-grid">
+        <div>
+            <p class="about-col-label">Eğitim</p>
+            <div class="d-flex flex-column gap-3">
+                @await Component.InvokeAsync("EducationList")
+            </div>
+        </div>
+        <div>
+            <p class="about-col-label">Deneyim</p>
+            <div class="d-flex flex-column gap-3">
+                @await Component.InvokeAsync("ExperienceList")
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="certificates" class="page-section">
+    <h2 class="section-title">Sertifikalar</h2>
+    <div class="row g-4">
+        @await Component.InvokeAsync("CertificateList")
+    </div>
+</section>
+
+<section id="contact" class="page-section" style="padding-bottom: 4rem;">
+    <h2 class="section-title">İletişim</h2>
+    <div class="contact-grid">
+        <div>@await Component.InvokeAsync("ContactDetails")</div>
+        <div>@await Html.PartialAsync("SendMessage")</div>
+    </div>
+</section>

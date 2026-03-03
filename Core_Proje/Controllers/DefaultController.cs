@@ -2,6 +2,8 @@ using BusinessLayer;
 using DataAccessLayer;
 using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
+using System;
+
 namespace Core_Proje.Controllers
 {
     public class DefaultController : Controller
@@ -11,28 +13,33 @@ namespace Core_Proje.Controllers
         {
             return View();
         }
+
         public PartialViewResult HeaderPartial()
         {
             return PartialView(); 
         }
+
         public PartialViewResult NavbarPartial()
         {
             return PartialView();
         }
+
         [HttpGet]
         public PartialViewResult SendMessage()
         {
             return PartialView();
         }
+
         [HttpPost]
-        public PartialViewResult SendMessage(Message p)
+        public IActionResult SendMessage(Message p) // Dönüş tipi IActionResult olarak değiştirildi
         {
             MessageManager messageManager = new MessageManager (new EfMessageDal());
-            p.Date= Convert.ToDateTime(DateTime.Now.ToShortDateString());
-            p.Status=true;
+            p.Date = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+            p.IsRead = true;
             messageManager.TAdd(p);
-            return PartialView();
+            
+            // İşlem bittikten sonra çıplak view yerine ana sayfadaki iletişim kısmına yönlendirir
+            return Redirect("/#contact"); 
         }
-
     }
 }

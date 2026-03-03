@@ -1,22 +1,89 @@
 @using EntityLayer
-@using Microsoft.AspNetCore.Http.Features
 @model List<Portfolio>
-<div class="section px-2 px-lg-4 pt-5" id="portfolio">
-  <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="marker marker-center">Portfolyo </h2>
-    </div>
-    <div class="grid bp-gallery pb-3" data-aos="zoom-in-up" data-aos-delay="100">
-      <div class="grid-sizer"></div>
-      @foreach (var item in Model){
-      <div class="grid-item"><a href="@item.ProjectUrl">
-          <figure class="portfolio-item"><img src="@item.ImageUrl" data-bp="@item.ImageUrl2"/>
-            <figcaption>
-              <h4 class="h5 mb-0">@item.Name</h4>
-              <div>@item.ProjectUrl</div>
-            </figcaption>
-          </figure></a></div>
-     }
-    </div>
-  </div>
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap');
+
+    .portfolio-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+    @@media (max-width:1100px) { .portfolio-grid { grid-template-columns:repeat(2,1fr); } }
+    @@media (max-width:576px)  { .portfolio-grid { grid-template-columns:1fr; } }
+
+    .portfolio-card { position:relative; background:var(--surface); border:1px solid var(--border); border-radius:20px; overflow:hidden; text-decoration:none !important; color:inherit; display:flex; flex-direction:column; transition:transform 0.35s ease,box-shadow 0.35s ease,border-color 0.35s ease; opacity:0; animation:cardIn 0.6s ease forwards; }
+    .portfolio-card:nth-child(1) { animation-delay:0.05s; }
+    .portfolio-card:nth-child(2) { animation-delay:0.15s; }
+    .portfolio-card:nth-child(3) { animation-delay:0.25s; }
+    .portfolio-card:nth-child(4) { animation-delay:0.35s; }
+    .portfolio-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,0.4); border-color:var(--accent-dim); color:inherit; }
+
+    .portfolio-img-wrap { position:relative; width:100%; height:190px; overflow:hidden; background: var(--surface); }
+    .portfolio-img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease,filter 0.5s ease; filter:brightness(0.85) saturate(0.9); }
+    .portfolio-card:hover .portfolio-img { transform:scale(1.06); filter:brightness(1) saturate(1); }
+    .portfolio-img-wrap::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(10,10,10,0.5) 0%,transparent 60%); pointer-events:none; }
+
+    .portfolio-pill { position:absolute; top:12px; left:12px; font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text); background: rgba(255, 255, 255, 0.436); backdrop-filter: blur(10px); padding:0.25rem 0.65rem; border-radius:20px; border:1px solid var(--border); z-index:1; }
+
+    .portfolio-content { padding:1.1rem 1.2rem 1.3rem; display:flex; flex-direction:column; gap:0.4rem; flex:1; }
+    .portfolio-header { display:flex; justify-content:space-between; align-items:flex-start; }
+    .portfolio-title { font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:500; color:var(--text); margin:0; letter-spacing:-0.01em; }
+    .portfolio-arrow { width:28px; height:28px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background 0.25s ease,border-color 0.25s ease; }
+    .portfolio-card:hover .portfolio-arrow { background:var(--accent); border-color:var(--accent); }
+    .portfolio-card:hover .portfolio-arrow svg { transform:translate(2px,-2px); }
+    .portfolio-desc { font-family:'DM Sans',sans-serif; font-size:0.78rem; color:var(--muted); margin:0; }
+
+    @@keyframes cardIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+</style>
+
+<div class="portfolio-grid">
+    <a href="/Portfolio/Index?category=Web" class="portfolio-card">
+        <div class="portfolio-img-wrap">
+            <img src="/Image/Portfolio/webProjeler.webp" alt="Web Projeleri" class="portfolio-img" />
+            <span class="portfolio-pill">Web</span>
+        </div>
+        <div class="portfolio-content">
+            <div class="portfolio-header">
+                <h4 class="portfolio-title">Web Projeleri</h4>
+                <span class="portfolio-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+            </div>
+            <p class="portfolio-desc">Web Sitesi Tasarımı ve Yapısı</p>
+        </div>
+    </a>
+    <a href="/Portfolio/Index?category=Mobil" class="portfolio-card">
+        <div class="portfolio-img-wrap">
+            <img src="/Image/Portfolio/mobilProjeleri.webp" alt="Mobil Projeleri" class="portfolio-img" />
+            <span class="portfolio-pill">Mobil</span>
+        </div>
+        <div class="portfolio-content">
+            <div class="portfolio-header">
+                <h4 class="portfolio-title">Mobil Projeleri</h4>
+                <span class="portfolio-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+            </div>
+            <p class="portfolio-desc">Mobil Uygulama Geliştirme</p>
+        </div>
+    </a>
+    <a href="/Portfolio/Index?category=Yazılım" class="portfolio-card">
+        <div class="portfolio-img-wrap">
+            <img src="/Image/Portfolio/yazilimProjeleri.webp" alt="Yazılım Projeleri" class="portfolio-img" />
+            <span class="portfolio-pill">Yazılım</span>
+        </div>
+        <div class="portfolio-content">
+            <div class="portfolio-header">
+                <h4 class="portfolio-title">Yazılım Projeleri</h4>
+                <span class="portfolio-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+            </div>
+            <p class="portfolio-desc">Yazılım Geliştirme</p>
+        </div>
+    </a>
+    <a href="/Portfolio/Index?category=Grafik" class="portfolio-card">
+        <div class="portfolio-img-wrap">
+            <img src="/Image/Portfolio/grafikProjeleri.webp" alt="Grafik Projeleri" class="portfolio-img" />
+            <span class="portfolio-pill">Grafik</span>
+        </div>
+        <div class="portfolio-content">
+            <div class="portfolio-header">
+                <h4 class="portfolio-title">Grafik Projeleri</h4>
+                <span class="portfolio-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+            </div>
+            <p class="portfolio-desc">Grafik Tasarım</p>
+        </div>
+    </a>
 </div>
